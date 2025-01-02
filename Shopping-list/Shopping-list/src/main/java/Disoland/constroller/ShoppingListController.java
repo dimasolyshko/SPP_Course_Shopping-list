@@ -43,5 +43,24 @@ public class ShoppingListController {
         return "redirect:/";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editShoppingItem(@PathVariable("id") Long id, Model model) {
+        ShoppingItem item = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
+        model.addAttribute("item", item);
+        return "edit";
+    }
 
+    @PostMapping("/edit/{id}")
+    public String updateShoppingItem(@PathVariable("id") Long id, ShoppingItem updatedItem) {
+        ShoppingItem item = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
+
+        item.setName(updatedItem.getName());
+        item.setQuantity(updatedItem.getQuantity());
+        item.setWeight(updatedItem.getWeight());
+        item.setVolume(updatedItem.getVolume());
+
+        repository.save(item);
+
+        return "redirect:/";
+    }
 }
