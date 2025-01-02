@@ -22,9 +22,19 @@ public class ShoppingItem {
     @Column
     private Double volume; // Объем (л)
 
+    @Column(nullable = false)
+    private Boolean purchased = false;
+
     public ShoppingItem() {}
 
-    // Геттеры и сеттеры
+    public Boolean getPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(Boolean purchased) {
+        this.purchased = purchased;
+    }
+
     public Long getId() {
         return id;
     }

@@ -31,6 +31,22 @@
         </div>
     </form>
 
+    <hr class="my-4">
+
+    <div class="btn-group mb-3">
+        <a class="btn btn-outline-primary" th:href="@{/filter/all}" th:classappend="${filterStatus == 'all' ? ' active' : ''}">
+            Все
+        </a>
+        <a class="btn btn-outline-success" th:href="@{/filter/purchased}"
+           th:classappend="${filterStatus == 'purchased' ? ' active' : ''}">
+            Купленные
+        </a>
+        <a class="btn btn-outline-warning" th:href="@{/filter/not-purchased}"
+           th:classappend="${filterStatus == 'not-purchased' ? ' active' : ''}">
+            Не купленные
+        </a>
+    </div>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -55,6 +71,11 @@
             <td>
                 <form th:action="@{/edit/{id}(id=${item.id})}" method="get" style="display:inline;">
                     <button type="submit" class="btn btn-outline-secondary">Редактировать</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/toggle/{id}(id=${item.id})}" method="post" style="display:inline;">
+                    <input type="checkbox" th:checked="${item.purchased}" onchange="this.form.submit()">
                 </form>
             </td>
         </tr>

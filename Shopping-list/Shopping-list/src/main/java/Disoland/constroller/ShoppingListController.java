@@ -24,6 +24,7 @@ public class ShoppingListController {
     @GetMapping
     public String indexPage(Model model) {
         model.addAttribute("items", repository.findAll());
+        model.addAttribute("filterStatus", "all");
         model.addAttribute("item", new ShoppingItem());
         return "index";
     }
@@ -78,4 +79,27 @@ public class ShoppingListController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/filter/{status}")
+    public String filterByStatus(@PathVariable("status") String status, Model model) {
+        if (status.equalsIgnoreCase("all")) {
+            model.addAttribute("items", repository.findAll());
+        } else {
+            boolean purchased = status.equalsIgnoreCase("purchased");
+            model.addAttribute("items", repository.findByPurchased(purchased));
+        }
+        model.addAttribute("item", new ShoppingItem());
+        model.addAttribute("filterStatus", status);
+        return "index";
+    }
+
+
+    @PostMapping("/toggle/{id}")
+    public String togglePurchasedStatus(@PathVariable("id") Long id) {
+        ShoppingItem item = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
+        item.setPurchased(!item.getPurchased());
+        repository.save(item);
+        return "redirect:/";
+    }
+
 }
