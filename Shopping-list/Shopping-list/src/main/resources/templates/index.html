@@ -15,27 +15,40 @@
 <div class="container">
     <form method="post" th:action="#{/}" th:object="${item}">
         <div class="input-group mb-3 mt-3">
-            <input type="text" th:field="*{name}" class="form-control" placeholder="Название новой покупки" aria-label="Название новой покупки" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-outline-primary" type="submit">Добавить</button>
-            </div>
+            <input type="text" th:field="*{name}" class="form-control" placeholder="Название новой покупки" aria-label="Название новой покупки">
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="number" th:field="*{quantity}" class="form-control" placeholder="Количество (шт)" aria-label="Количество (шт)">
+            <span class="input-group-text">или</span>
+            <input type="number" step="0.1" th:field="*{weight}" class="form-control" placeholder="Вес (кг)" aria-label="Вес (кг)">
+            <span class="input-group-text">или</span>
+            <input type="number" step="0.1" th:field="*{volume}" class="form-control" placeholder="Объем (л)" aria-label="Объем (л)">
+        </div>
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit">Добавить</button>
         </div>
     </form>
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Название</th>
+            <th scope="col">Количество / Вес / Объем</th>
             <th scope="col">Действия</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${items}">
-            <th scope="row" th:text="${item.id}">1</th>
-            <td th:text="${item.name}">Мясо</td>
+            <td th:text="${item.name}">Название</td>
             <td>
-                <form th:action="@{/{id}(id = ${item.id})}" th:method="delete">
+                <span th:if="${item.quantity != null}" th:text="${item.quantity + ' шт'}">0 шт</span>
+                <span th:if="${item.weight != null}" th:text="${item.weight + ' кг'}">0 кг</span>
+                <span th:if="${item.volume != null}" th:text="${item.volume + ' л'}">0 л</span>
+            </td>
+            <td>
+                <form th:action="@{/{id}(id=${item.id})}" th:method="delete" style="display:inline;">
                     <button type="submit" class="btn btn-outline-danger">Удалить</button>
                 </form>
             </td>
@@ -44,10 +57,6 @@
     </table>
 </div>
 
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

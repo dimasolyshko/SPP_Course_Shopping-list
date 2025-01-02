@@ -28,7 +28,11 @@ public class ShoppingListController {
     }
 
     @PostMapping
-    public String newShoppingItem(ShoppingItem item){
+    public String newShoppingItem(ShoppingItem item) {
+        if (item.getQuantity() == null && item.getWeight() == null && item.getVolume() == null) {
+            throw new IllegalArgumentException("Необходимо указать количество, вес или объем");
+        }
+
         repository.save(item);
         return "redirect:/";
     }
@@ -38,4 +42,6 @@ public class ShoppingListController {
         repository.deleteById(id);
         return "redirect:/";
     }
+
+
 }

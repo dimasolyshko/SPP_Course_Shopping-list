@@ -13,8 +13,18 @@ public class ShoppingItem {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private Integer quantity; // Количество (шт)
+
+    @Column
+    private Double weight; // Вес (кг)
+
+    @Column
+    private Double volume; // Объем (л)
+
     public ShoppingItem() {}
 
+    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }
@@ -29,5 +39,29 @@ public class ShoppingItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(Double volume) {
+        this.volume = volume;
     }
 }
