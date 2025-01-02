@@ -1,12 +1,13 @@
 package Disoland.constroller;
 
+import Disoland.persist.ShoppingItem;
+import Disoland.persist.ShoppingItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import Disoland.persist.ShoppingItem;
-import Disoland.persist.ShoppingItemRepository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,16 +22,22 @@ public class ShoppingListController {
     }
 
     @GetMapping
-    public String indexPage(Model model){
+    public String indexPage(Model model) {
         model.addAttribute("items", repository.findAll());
         model.addAttribute("item", new ShoppingItem());
         return "index";
     }
 
     @PostMapping
-    public String newShoppingItem(ShoppingItem item) {
+    public String newShoppingItem(ShoppingItem item, BindingResult result, Model model) {
         if (item.getQuantity() == null && item.getWeight() == null && item.getVolume() == null) {
-            throw new IllegalArgumentException("Необходимо указать количество, вес или объем");
+            result.rejectValue("quantity", "error.item", "Необходимо указать хотя бы одно поле: количество, вес или объем");
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("item", item);
+            model.addAttribute("items", repository.findAll());
+            return "index";
         }
 
         repository.save(item);
@@ -38,7 +45,7 @@ public class ShoppingListController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteShoppingItem(@PathVariable("id") Long id){
+    public String deleteShoppingItem(@PathVariable("id") Long id) {
         repository.deleteById(id);
         return "redirect:/";
     }
@@ -51,9 +58,17 @@ public class ShoppingListController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateShoppingItem(@PathVariable("id") Long id, ShoppingItem updatedItem) {
-        ShoppingItem item = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
+    public String updateShoppingItem(@PathVariable("id") Long id, ShoppingItem updatedItem, BindingResult result, Model model) {
+        if (updatedItem.getQuantity() == null && updatedItem.getWeight() == null && updatedItem.getVolume() == null) {
+            result.rejectValue("quantity", "error.item", "Необходимо указать хотя бы одно поле: количество, вес или объем");
+        }
 
+        if (result.hasErrors()) {
+            model.addAttribute("item", updatedItem);
+            return "edit";
+        }
+
+        ShoppingItem item = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
         item.setName(updatedItem.getName());
         item.setQuantity(updatedItem.getQuantity());
         item.setWeight(updatedItem.getWeight());

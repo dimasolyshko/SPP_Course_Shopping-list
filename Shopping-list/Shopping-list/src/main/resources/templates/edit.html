@@ -1,18 +1,21 @@
 <!doctype html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Редактировать покупку</title>
+
+    <title>Список покупок</title>
 </head>
 <body>
 
 <div class="container">
-    <h2 class="mt-3">Редактировать покупку</h2>
-    <form method="post" th:action="@{/edit/{id}(id=${item.id})}" th:object="${item}">
+    <form method="post" th:action="#{/}" th:object="${item}">
         <div class="input-group mb-3 mt-3">
-            <input type="text" th:field="*{name}" class="form-control" placeholder="Название" aria-label="Название">
+            <input type="text" th:field="*{name}" class="form-control" placeholder="Название новой покупки" aria-label="Название новой покупки">
         </div>
 
         <div class="input-group mb-3">
@@ -24,7 +27,7 @@
         </div>
 
         <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="submit">Сохранить</button>
+            <button class="btn btn-outline-primary" type="submit">Добавить</button>
         </div>
     </form>
 </div>
