@@ -14,13 +14,13 @@ public class ShoppingItem {
     private String name;
 
     @Column
-    private Integer quantity; // Количество (шт)
+    private Integer quantity;
 
     @Column
-    private Double weight; // Вес (кг)
+    private Double weight;
 
     @Column
-    private Double volume; // Объем (л)
+    private Double volume;
 
     @Column(nullable = false)
     private Boolean purchased = false;

@@ -93,7 +93,6 @@ public class ShoppingListController {
         return "index";
     }
 
-
     @PostMapping("/toggle/{id}")
     public String togglePurchasedStatus(@PathVariable("id") Long id) {
         ShoppingItem item = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
@@ -101,5 +100,4 @@ public class ShoppingListController {
         repository.save(item);
         return "redirect:/";
     }
-
 }

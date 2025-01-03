@@ -13,7 +13,10 @@
 <body>
 
 <div class="container">
-    <form method="post" th:action="#{/}" th:object="${item}">
+    <!-- Форма добавления нового товара -->
+    <form method="post" th:action="@{${filterStatus == 'all' ? '/' : '/filter/' + filterStatus}}" th:object="${item}">
+        <input type="hidden" th:name="filterStatus" th:value="${filterStatus}">
+
         <div class="input-group mb-3 mt-3">
             <input type="text" th:field="*{name}" class="form-control" placeholder="Название новой покупки" aria-label="Название новой покупки">
         </div>
@@ -33,6 +36,7 @@
 
     <hr class="my-4">
 
+    <!-- Кнопки фильтрации -->
     <div class="btn-group mb-3">
         <a class="btn btn-outline-primary" th:href="@{/filter/all}" th:classappend="${filterStatus == 'all' ? ' active' : ''}">
             Все
@@ -47,6 +51,7 @@
         </a>
     </div>
 
+    <!-- Таблица списка товаров -->
     <table class="table table-striped">
         <thead>
         <tr>
